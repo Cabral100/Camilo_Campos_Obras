@@ -118,7 +118,7 @@
         }
 
         .logo {
-            font-size: 1.8rem;
+            font-size: 1.5rem;
             font-weight: 700;
             color: var(--white);
             letter-spacing: 1px;
@@ -232,18 +232,46 @@
             z-index: 1002;
         }
 
-        /* --- Seção Hero --- */
+        /* --- Seção Hero com Carrossel --- */
         .hero {
             height: 100vh;
-            background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('img/proj_camilo1.jpg') no-repeat center center/cover;
             color: var(--white);
+            display: flex;
+            position: relative;
+            overflow: hidden;
+        }
+        .hero-carousel-wrapper {
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+        }
+        .hero-slide {
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%;
+            height: 100%;
+            background-size: cover;
+            background-position: center;
+            opacity: 0;
+            transition: opacity 1.2s ease-in-out;
+        }
+        .hero-slide.active {
+            opacity: 1;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            width: 100%;
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
             text-align: center;
             padding: 0 20px;
+            background: rgba(0,0,0,0.5);
         }
+        
         .hero h1 {
             font-size: 4rem;
             font-weight: 700;
@@ -255,7 +283,61 @@
             font-size: 1.3rem;
             font-weight: 300;
             max-width: 900px;
+            margin-bottom: 40px;
         }
+
+        .hero-services {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        .hero-service-card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
+            padding: 15px 25px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transition: background 0.3s ease;
+        }
+        .hero-service-card:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+        .hero-service-card i {
+            font-size: 1.5rem;
+            color: var(--light-green-accent);
+        }
+        .hero-service-card span {
+            font-weight: 500;
+        }
+
+        .hero-dots {
+            position: absolute;
+            bottom: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 15px;
+            z-index: 3;
+        }
+        .dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.5);
+            cursor: pointer;
+            transition: background 0.3s ease, transform 0.3s ease;
+        }
+        .dot:hover {
+            transform: scale(1.2);
+        }
+        .dot.active {
+            background: var(--white);
+        }
+
 
         /* --- Seções Gerais --- */
         .section {
@@ -345,26 +427,44 @@
         }
 
         /* --- Serviços (Estilizado) --- */
-        #services { background-color: var(--light-bg); }
+        #services { 
+            position: relative;
+            background: url('img/oquefazemos.png') no-repeat center center/cover;
+            color: var(--white);
+            z-index: 1;
+        }
+        #services::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background-color: rgba(26, 82, 57, 0.85);
+            z-index: -1;
+        }
+
+        #services .section-title {
+            color: var(--white);
+        }
+        
         .services-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 30px;
         }
         .service-card {
-            background: var(--card-bg);
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(5px);
             padding: 30px;
             border-radius: 8px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border: 1px solid rgba(255,255,255,0.2);
+            transition: background-color 0.3s ease, transform 0.3s ease;
         }
         .service-card:hover {
             transform: translateY(-5px);
-            box-shadow: 0 12px 25px rgba(0,0,0,0.1);
+            background: rgba(255, 255, 255, 0.15);
         }
         .service-card h3 {
             font-size: 1.5rem;
-            color: var(--primary-green);
+            color: var(--white);
             margin-bottom: 20px;
         }
         .services-list {
@@ -372,8 +472,8 @@
         }
         .services-list li {
             padding: 8px 0;
-            color: var(--gray-text);
-            border-bottom: 1px solid var(--border-color);
+            color: rgba(255, 255, 255, 0.8);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
             font-size: 1rem;
         }
         .services-list li:last-child {
@@ -383,32 +483,41 @@
             grid-column: 1 / -1;
             margin-top: 30px;
             padding: 20px;
-            background-color: var(--info-bg);
-            border-left: 4px solid var(--primary-green);
+            background-color: rgba(0,0,0,0.2);
+            border-left: 4px solid var(--light-green-accent);
             border-radius: 8px;
-            color: var(--darker-green);
+            color: var(--white);
             font-size: 0.95rem;
         }
         .services-notes p {
             margin: 0;
         }
 
-        /* --- Portfólio (Tela Cheia com Parallax) --- */
-        #portfolio { padding: 0; max-width: none; }
-        .project-showcase {
-            height: 100vh;
-            background-size: cover;
-            background-position: center;
-            background-attachment: fixed;
+        /* --- Portfólio --- */
+        #portfolio {
+            background-color: var(--white);
+            padding: 100px 0;
+        }
+        .portfolio-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0;
+        }
+        .portfolio-item {
             overflow: hidden;
-            position: relative;
+            height: 90vh; 
         }
-        .project-showcase::after {
-             content: '';
-             position: absolute;
-             top:0; left: 0; width: 100%; height: 100%;
-             background-color: rgba(0,0,0,0.1);
+        .portfolio-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            transition: transform 0.5s ease;
         }
+        .portfolio-item:hover img {
+            transform: scale(1.1);
+        }
+
 
         /* --- Depoimentos (Novo Estilo) --- */
         #testimonials { background-color: var(--light-bg); }
@@ -685,9 +794,15 @@
             .gallery-item { flex-basis: 50%; }
             #about .section-container { grid-template-columns: 1fr; }
             .about-image { order: 0; } 
-            .project-showcase {
-                background-attachment: scroll; /* Desativa parallax no mobile */
-                height: 80vh; /* Altura menor para melhor visualização */
+            .portfolio-grid { 
+                grid-template-columns: 1fr; 
+                gap: 0;
+            }
+            .portfolio-item {
+                height: 100vh;
+            }
+            .hero-services {
+                transform: scale(0.8);
             }
         }
         @media (max-width: 576px) {
@@ -737,10 +852,37 @@
 
     <main>
         <section id="hero" class="hero">
-            <div class="animate-on-scroll">
-                <h1>Excelência em cada detalhe da sua obra.</h1>
-                <p>Construímos mais que edificações, realizamos projetos de vida com gestão, qualidade e compromisso.</p>
+            <div class="hero-carousel-wrapper">
+                <div class="hero-slide active" style="background-image: url('img/proj_camilo1.jpg');"></div>
+                <div class="hero-slide" style="background-image: url('img/proj_camilo2.jpg');"></div>
+                <div class="hero-slide" style="background-image: url('img/proj_camilo3.jpg');"></div>
+                <div class="hero-slide" style="background-image: url('img/proj_camilo4.jpg');"></div>
             </div>
+            <div class="hero-content">
+                <div class="animate-on-scroll">
+                    <h1>Excelência em cada detalhe da sua obra.</h1>
+                    <p>Construímos mais que edificações, realizamos projetos de vida com gestão, qualidade e compromisso.</p>
+                    <div class="hero-services">
+                        <div class="hero-service-card">
+                            <i class="fas fa-trowel"></i>
+                            <span>Fundações</span>
+                        </div>
+                        <div class="hero-service-card">
+                            <i class="fas fa-building"></i>
+                            <span>Estrutura</span>
+                        </div>
+                        <div class="hero-service-card">
+                            <i class="fas fa-bolt"></i>
+                            <span>Instalações</span>
+                        </div>
+                        <div class="hero-service-card">
+                            <i class="fas fa-ruler-combined"></i>
+                            <span>Acabamentos</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="hero-dots"></div>
         </section>
 
         <section id="showcase-gallery">
@@ -804,17 +946,22 @@
             </div>
         </section>
 
-        <section id="portfolio">
-            <div class="project-showcase" style="background-image: url('img/proj_camilo6.jpg');"></div>
-            <div class="project-showcase" style="background-image: url('img/proj_camilo7.jpg');"></div>
-            <div class="project-showcase" style="background-image: url('img/proj_camilo8.jpg');"></div>
-            <div class="project-showcase" style="background-image: url('img/proj_camilo9.jpg');"></div>
-            <div class="project-showcase" style="background-image: url('img/proj_camilo10.jpg');"></div>
-            <div class="project-showcase" style="background-image: url('img/proj_camilo11.jpg');"></div>
-            <div class="project-showcase" style="background-image: url('img/proj_camilo12.jpg');"></div>
-            <div class="project-showcase" style="background-image: url('img/proj_camilo13.jpg');"></div>
-            <div class="project-showcase" style="background-image: url('img/proj_camilo14.jpg');"></div>
-            <div class="project-showcase" style="background-image: url('img/proj_camilo15.jpg');"></div>
+        <section id="portfolio" class="section">
+            <div class="section-container">
+                 <h2 class="section-title animate-on-scroll">Conheça Nossos Projetos</h2>
+            </div>
+            <div class="portfolio-grid animate-on-scroll">
+                <div class="portfolio-item"><img src="img/proj_camilo6.jpg" alt="Projeto 6"></div>
+                <div class="portfolio-item"><img src="img/proj_camilo7.jpg" alt="Projeto 7"></div>
+                <div class="portfolio-item"><img src="img/proj_camilo8.jpg" alt="Projeto 8"></div>
+                <div class="portfolio-item"><img src="img/proj_camilo9.jpg" alt="Projeto 9"></div>
+                <div class="portfolio-item"><img src="img/proj_camilo10.jpg" alt="Projeto 10"></div>
+                <div class="portfolio-item"><img src="img/proj_camilo11.jpg" alt="Projeto 11"></div>
+                <div class="portfolio-item"><img src="img/proj_camilo12.jpg" alt="Projeto 12"></div>
+                <div class="portfolio-item"><img src="img/proj_camilo13.jpg" alt="Projeto 13"></div>
+                <div class="portfolio-item"><img src="img/proj_camilo14.jpg" alt="Projeto 14"></div>
+                <div class="portfolio-item"><img src="img/proj_camilo15.jpg" alt="Projeto 15"></div>
+            </div>
         </section>
 
         <section id="testimonials" class="section">
@@ -975,6 +1122,53 @@
         const backToTopBtn = document.getElementById('backToTopBtn');
         const faqItems = document.querySelectorAll('.faq-item');
         
+        // Hero Carousel
+        const heroSlides = document.querySelectorAll('.hero-slide');
+        const heroDotsContainer = document.querySelector('.hero-dots');
+        let currentSlide = 0;
+        let heroInterval;
+
+        // Create dots and add event listeners
+        heroSlides.forEach((slide, index) => {
+            const dot = document.createElement('div');
+            dot.classList.add('dot');
+            dot.addEventListener('click', () => {
+                showHeroSlide(index);
+                resetHeroInterval();
+            });
+            heroDotsContainer.appendChild(dot);
+        });
+
+        const heroDots = document.querySelectorAll('.dot');
+
+        function showHeroSlide(index) {
+            heroSlides.forEach((slide, i) => {
+                slide.classList.toggle('active', i === index);
+            });
+            heroDots.forEach((dot, i) => {
+                dot.classList.toggle('active', i === index);
+            });
+            currentSlide = index;
+        }
+
+        function nextHeroSlide() {
+            currentSlide = (currentSlide + 1) % heroSlides.length;
+            showHeroSlide(currentSlide);
+        }
+        
+        function startHeroInterval() {
+             heroInterval = setInterval(nextHeroSlide, 5000); // Change slide every 5 seconds
+        }
+
+        function resetHeroInterval() {
+            clearInterval(heroInterval);
+            startHeroInterval();
+        }
+
+        showHeroSlide(0);
+        startHeroInterval();
+
+
         // Preloader Logic
         window.addEventListener('load', () => {
             setTimeout(() => {

@@ -1,0 +1,1050 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#1A5239">
+    <title>Camilo Campos Obras LTDA - Portfólio Moderno</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-green: #2E8B57; 
+            --darker-green: #1A5239;
+            --light-green-accent: #4CAF50;
+            --text-color: #333;
+            --light-bg: #f8f9fa;
+            --white: #fff;
+            --gray-text: #6c757d;
+            --card-bg: #ffffff;
+            --border-color: #e9ecef;
+            --info-bg: #e8f5e9; /* Light green background for notes */
+            --star-color: #ffc107;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            color: var(--text-color);
+            background-color: var(--darker-green);
+            overflow-x: hidden;
+        }
+        
+        body.no-scroll {
+            overflow: hidden;
+        }
+        
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        main {
+            background-color: var(--white);
+        }
+
+        /* --- Tela de Carregamento (Preloader) --- */
+        #preloader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: var(--darker-green);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 10000;
+            transition: opacity 0.8s ease, visibility 0.8s ease;
+        }
+        #preloader.hidden {
+            opacity: 0;
+            visibility: hidden;
+        }
+        .loader {
+            width: 50px;
+            height: 50px;
+            border: 5px solid rgba(255, 255, 255, 0.3);
+            border-top-color: var(--white);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* --- Animações de Scroll --- */
+        .animate-on-scroll {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+        }
+        .animate-on-scroll.appear {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .stagger-animation > * {
+            transition-delay: calc(0.1s * var(--i));
+        }
+
+        /* --- Header e Navbar --- */
+        .header {
+            position: fixed;
+            width: 100%;
+            top: 0;
+            left: 0;
+            z-index: 1000;
+            padding: 1.5rem 0;
+            transition: background-color 0.4s ease, padding 0.4s ease, box-shadow 0.4s ease;
+        }
+        .header.scrolled {
+            background-color: var(--darker-green);
+            padding: 1rem 0;
+            box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1300px;
+            margin: 0 auto;
+            padding: 0 30px;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--white);
+            letter-spacing: 1px;
+        }
+
+        .nav-links {
+            list-style: none;
+            display: flex;
+        }
+        .nav-links li { margin-left: 40px; }
+        .nav-links a {
+            color: var(--white);
+            font-weight: 500;
+            position: relative;
+            padding-bottom: 8px;
+            transition: color 0.3s ease;
+        }
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            background: var(--light-green-accent);
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            transition: width 0.4s ease;
+        }
+        .nav-links a:hover { color: var(--light-green-accent); }
+        .nav-links a:hover::after { width: 100%; }
+
+        /* --- Hamburger Menu Fix --- */
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+            z-index: 1002;
+            padding: 8px;
+            border-radius: 4px;
+            transition: all 0.3s ease;
+        }
+        
+        .hamburger:hover {
+            background: rgba(0, 0, 0, 0.2);
+        }
+        
+        .hamburger .bar {
+            width: 25px;
+            height: 3px;
+            background-color: var(--white);
+            margin: 3px 0;
+            transition: 0.4s;
+            border-radius: 2px;
+            display: block;
+        }
+        
+        /* Hamburger Animation */
+        .hamburger.active .bar:nth-child(1) {
+            transform: rotate(-45deg) translate(-5px, 6px);
+        }
+        .hamburger.active .bar:nth-child(2) {
+            opacity: 0;
+        }
+        .hamburger.active .bar:nth-child(3) {
+            transform: rotate(45deg) translate(-5px, -6px);
+        }
+        
+        /* --- Menu Mobile Fullscreen --- */
+        .mobile-menu {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background-color: rgba(26, 82, 57, 0.98);
+            backdrop-filter: blur(5px);
+            z-index: 1001;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            visibility: hidden;
+            transform: scale(1.1);
+            transition: opacity 0.5s ease, visibility 0.5s ease, transform 0.5s ease;
+        }
+        .mobile-menu.active {
+            opacity: 1;
+            visibility: visible;
+            transform: scale(1);
+        }
+        .mobile-menu ul { list-style: none; text-align: center; }
+        .mobile-menu ul li { margin: 30px 0; }
+        .mobile-menu ul li a {
+            color: var(--white);
+            font-size: 2rem;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+        .mobile-menu ul li a:hover { color: var(--light-green-accent); }
+        .close-menu-btn {
+            position: absolute;
+            top: 30px;
+            right: 30px;
+            background: none;
+            border: none;
+            color: var(--white);
+            font-size: 2.5rem;
+            cursor: pointer;
+            z-index: 1002;
+        }
+
+        /* --- Seção Hero --- */
+        .hero {
+            height: 100vh;
+            background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('img/proj_camilo1.jpg') no-repeat center center/cover;
+            color: var(--white);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 0 20px;
+        }
+        .hero h1 {
+            font-size: 4rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+            max-width: 900px;
+            line-height: 1.2;
+        }
+        .hero p {
+            font-size: 1.3rem;
+            font-weight: 300;
+            max-width: 900px;
+        }
+
+        /* --- Seções Gerais --- */
+        .section {
+            padding: 100px 30px;
+        }
+        .section-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .section-title {
+            font-size: 2.8rem;
+            color: var(--darker-green);
+            text-align: center;
+            margin-bottom: 60px;
+            position: relative;
+        }
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 70px;
+            height: 4px;
+            background: var(--light-green-accent);
+        }
+        .section-subtitle {
+            text-align: center;
+            font-size: 1.2rem;
+            color: var(--gray-text);
+            margin-top: -40px;
+            margin-bottom: 60px;
+        }
+
+        /* --- Galeria Abaixo do Hero --- */
+        #showcase-gallery {
+            padding: 50px 0;
+            background-color: var(--white);
+        }
+        .gallery-wrapper {
+            max-width: 100%;
+            overflow: hidden;
+        }
+        .gallery-row {
+            display: flex;
+            gap: 15px;
+        }
+        .gallery-item {
+            flex: 0 0 25%;
+            height: 350px;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+        }
+        .gallery-item:hover {
+            transform: translateY(-5px);
+        }
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.4s ease;
+        }
+        .gallery-item:hover img {
+            transform: scale(1.1);
+        }
+
+
+        /* --- Sobre Nós --- */
+        #about .section-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 50px;
+            align-items: center;
+        }
+        .about-content p {
+            font-size: 1.1rem;
+            color: var(--gray-text);
+            margin-bottom: 20px;
+            line-height: 1.8;
+        }
+        .about-image img {
+            width: 100%;
+            border-radius: 8px;
+            box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+        }
+
+        /* --- Serviços (Estilizado) --- */
+        #services { background-color: var(--light-bg); }
+        .services-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+        }
+        .service-card {
+            background: var(--card-bg);
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .service-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 25px rgba(0,0,0,0.1);
+        }
+        .service-card h3 {
+            font-size: 1.5rem;
+            color: var(--primary-green);
+            margin-bottom: 20px;
+        }
+        .services-list {
+            list-style: none;
+        }
+        .services-list li {
+            padding: 8px 0;
+            color: var(--gray-text);
+            border-bottom: 1px solid var(--border-color);
+            font-size: 1rem;
+        }
+        .services-list li:last-child {
+            border-bottom: none;
+        }
+        .services-notes {
+            grid-column: 1 / -1;
+            margin-top: 30px;
+            padding: 20px;
+            background-color: var(--info-bg);
+            border-left: 4px solid var(--primary-green);
+            border-radius: 8px;
+            color: var(--darker-green);
+            font-size: 0.95rem;
+        }
+        .services-notes p {
+            margin: 0;
+        }
+
+        /* --- Portfólio (Tela Cheia com Parallax) --- */
+        #portfolio { padding: 0; max-width: none; }
+        .project-showcase {
+            height: 100vh;
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            overflow: hidden;
+            position: relative;
+        }
+        .project-showcase::after {
+             content: '';
+             position: absolute;
+             top:0; left: 0; width: 100%; height: 100%;
+             background-color: rgba(0,0,0,0.1);
+        }
+
+        /* --- Depoimentos (Novo Estilo) --- */
+        #testimonials { background-color: var(--light-bg); }
+        #testimonials .section-container {
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: 60px;
+            align-items: center;
+        }
+        .testimonials-intro { text-align: left; }
+        .testimonials-intro .section-title, .testimonials-intro .section-subtitle { text-align: left; }
+        .testimonials-intro .section-title::after { left: 0; transform: none; }
+
+        .testimonials-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+        }
+        .testimonial-card {
+            background-color: var(--card-bg);
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: 0 5px 25px rgba(0,0,0,0.07);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .testimonial-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 30px rgba(0,0,0,0.1);
+        }
+        .testimonial-rating {
+            margin-bottom: 15px;
+            color: var(--star-color);
+            font-size: 1.1rem;
+        }
+        .testimonial-body p {
+            font-size: 1rem;
+            line-height: 1.7;
+            color: var(--text-color);
+            margin-bottom: 20px;
+        }
+        .testimonial-author {
+            display: flex;
+            align-items: center;
+        }
+        .testimonial-author img {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            margin-right: 15px;
+        }
+        .testimonial-author-info h4 { font-size: 1rem; font-weight: 600; }
+        .testimonial-author-info span { font-size: 0.9rem; color: var(--primary-green); font-weight: 500; }
+
+
+        /* --- FAQ (Novo Estilo) --- */
+        #faq { background-color: var(--white); }
+        .faq-grid {
+            max-width: 1000px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+        .faq-item {
+            background-color: var(--light-bg);
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+        .faq-item:hover {
+             transform: translateY(-5px);
+        }
+        .faq-question {
+            width: 100%;
+            background: none;
+            border: none;
+            text-align: left;
+            padding: 20px 25px;
+            font-size: 1.1rem;
+            font-weight: 500;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: var(--text-color);
+        }
+        .faq-question .icon {
+            transition: transform 0.3s ease;
+            font-size: 1.3rem;
+            color: var(--primary-green);
+        }
+        .faq-answer {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease-out;
+            color: var(--gray-text);
+            line-height: 1.7;
+            font-size: 0.95rem;
+        }
+        .faq-answer p {
+            padding: 0 25px 20px 25px;
+        }
+        .faq-item.active .faq-question {
+            color: var(--primary-green);
+        }
+        .faq-item.active .faq-question .icon {
+            transform: rotate(135deg);
+        }
+        .faq-item.active .faq-answer {
+            max-height: 200px;
+        }
+
+
+        /* --- Contato (Moderno) --- */
+        #contact { background-color: var(--light-bg); }
+        .contact-container {
+            display: grid;
+            grid-template-columns: 1fr 1.2fr;
+            gap: 60px;
+            align-items: center;
+        }
+        .contact-info h2 { font-size: 2.5rem; color: var(--darker-green); margin-bottom: 20px; }
+        .contact-info p { font-size: 1.1rem; color: var(--gray-text); line-height: 1.8; margin-bottom: 30px; }
+        
+        .contact-form {
+            background-color: var(--card-bg);
+            padding: 40px;
+            border-radius: 8px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+        }
+        .form-group { position: relative; margin-bottom: 30px; }
+        .form-group input, .form-group textarea {
+            width: 100%;
+            padding: 12px 0;
+            border: none;
+            border-bottom: 2px solid #ccc;
+            background: transparent;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1rem;
+            position: relative;
+            z-index: 1;
+        }
+        .form-group input:focus, .form-group textarea:focus {
+            outline: none;
+            border-bottom-color: var(--primary-green);
+        }
+        .form-group label {
+            position: absolute;
+            top: 12px;
+            left: 0;
+            color: var(--gray-text);
+            transition: 0.3s ease all;
+            z-index: 0;
+        }
+        .form-group input:focus ~ label, .form-group input:valid ~ label,
+        .form-group textarea:focus ~ label, .form-group textarea:valid ~ label {
+            top: -15px;
+            font-size: 0.85rem;
+            color: var(--primary-green);
+        }
+        .form-group textarea { resize: none; min-height: 80px; }
+        
+        .submit-btn {
+            width: 100%;
+            padding: 15px;
+            background-color: var(--light-green-accent);
+            color: var(--white);
+            border: none;
+            border-radius: 5px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .submit-btn:hover { background-color: var(--primary-green); }
+
+        /* --- Footer --- */
+        .footer {
+            background-color: var(--darker-green);
+            padding: 60px 30px;
+            color: rgba(255, 255, 255, 0.7);
+        }
+        .footer-grid {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+        }
+        .footer-col h4 {
+            font-size: 1.3rem;
+            color: var(--white);
+            margin-bottom: 20px;
+            font-weight: 600;
+        }
+        .footer-col ul { list-style: none; }
+        .footer-col ul li { margin-bottom: 10px; }
+        .footer-col ul a {
+            color: rgba(255, 255, 255, 0.7);
+            transition: color 0.3s, padding-left 0.3s;
+        }
+        .footer-col ul a:hover {
+            color: var(--white);
+            padding-left: 5px;
+        }
+        .footer-social-links a {
+            display: inline-block;
+            margin-right: 15px;
+            font-size: 1.5rem;
+            color: var(--white);
+            transition: transform 0.3s;
+        }
+        .footer-social-links a:hover {
+            transform: translateY(-3px);
+        }
+        .footer-bottom {
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255,255,255,0.2);
+            text-align: center;
+        }
+        .footer-credit a { color: var(--white); font-weight: 500; }
+
+        /* --- Botões Flutuantes --- */
+        .back-to-top, .whatsapp-button {
+            position: fixed;
+            right: 25px;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 1.5rem;
+            color: var(--white);
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s, opacity 0.4s;
+            z-index: 999;
+        }
+        .back-to-top {
+            background-color: var(--primary-green);
+            bottom: 90px;
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        .back-to-top.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .whatsapp-button {
+            background-color: #25D366;
+            bottom: 25px;
+        }
+        .back-to-top:hover, .whatsapp-button:hover {
+            transform: scale(1.1);
+        }
+
+        /* --- Responsividade --- */
+        @media (max-width: 992px) {
+            #testimonials .section-container, .contact-container { grid-template-columns: 1fr; }
+            .testimonials-intro { text-align: center; margin-bottom: 40px; }
+            .testimonials-intro .section-title, .testimonials-intro .section-subtitle { text-align: center; }
+            .testimonials-intro .section-title::after { left: 50%; transform: translateX(-50%); }
+            .services-grid { grid-template-columns: 1fr; }
+            .gallery-item { flex-basis: 33.33%; }
+            .faq-grid { grid-template-columns: 1fr; }
+        }
+        @media (max-width: 768px) {
+            .nav-links { display: none; }
+            .hamburger { display: flex; }
+            .hero h1 { font-size: 2.8rem; }
+            .hero p { font-size: 1.1rem; }
+            .section-title { font-size: 2.2rem; }
+            .gallery-item { flex-basis: 50%; }
+            #about .section-container { grid-template-columns: 1fr; }
+            .about-image { order: 0; } 
+        }
+        @media (max-width: 576px) {
+            .gallery-wrapper {
+                 overflow-x: auto;
+                 padding-left: 30px;
+                 padding-right: 30px;
+            }
+             .gallery-item {
+                flex: 0 0 80%;
+            }
+        }
+    </style>
+</head>
+<body class="no-scroll">
+
+    <div id="preloader">
+        <div class="loader"></div>
+    </div>
+
+    <header class="header">
+        <nav class="navbar">
+            <a href="#hero" class="logo">CAMILO CAMPOS</a>
+            <ul class="nav-links">
+                <li><a href="#about">Sobre</a></li>
+                <li><a href="#services">Serviços</a></li>
+                <li><a href="#portfolio">Projetos</a></li>
+                <li><a href="#contact">Contato</a></li>
+            </ul>
+            <div class="hamburger">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </div>
+        </nav>
+    </header>
+
+    <div class="mobile-menu">
+        <button class="close-menu-btn" aria-label="Fechar Menu">&times;</button>
+        <ul>
+            <li><a href="#about">Sobre</a></li>
+            <li><a href="#services">Serviços</a></li>
+            <li><a href="#portfolio">Projetos</a></li>
+            <li><a href="#contact">Contato</a></li>
+        </ul>
+    </div>
+
+    <main>
+        <section id="hero" class="hero">
+            <div class="animate-on-scroll">
+                <h1>Excelência em cada detalhe da sua obra.</h1>
+                <p>Construímos mais que edificações, realizamos projetos de vida com gestão, qualidade e compromisso.</p>
+            </div>
+        </section>
+
+        <section id="showcase-gallery">
+            <div class="gallery-wrapper">
+                <div class="gallery-row animate-on-scroll stagger-animation">
+                    <div class="gallery-item" style="--i: 1;"><img src="img/proj_camilo2.jpg" alt="Projeto em Destaque 1"></div>
+                    <div class="gallery-item" style="--i: 2;"><img src="img/proj_camilo3.jpg" alt="Projeto em Destaque 2"></div>
+                    <div class="gallery-item" style="--i: 3;"><img src="img/proj_camilo4.jpg" alt="Projeto em Destaque 3"></div>
+                    <div class="gallery-item" style="--i: 4;"><img src="img/proj_camilo5.jpg" alt="Projeto em Destaque 4"></div>
+                    <div class="gallery-item" style="--i: 5;"><img src="img/proj_camilo1.jpg" alt="Projeto em Destaque 5"></div>
+                </div>
+            </div>
+        </section>
+
+        <section id="about" class="section">
+            <div class="section-container">
+                <div class="about-content animate-on-scroll">
+                    <h2 class="section-title">Nossa História</h2>
+                    <p>Com quase 20 anos de mercado, a <strong>Camilo Campos Obras LTDA</strong> se consolidou como especialista na execução e gestão de obras residenciais, comerciais e industriais. Nosso diferencial é a administração completa do projeto, incluindo o fornecimento de materiais de alta qualidade, garantindo tranquilidade e segurança para nossos clientes.</p>
+                    <p>Liderada pelo arquiteto e engenheiro Thiago Camilo, nossa equipe se dedica a transformar projetos arquitetônicos em realidade, respeitando prazos, orçamentos e, acima de tudo, a visão de quem nos contrata.</p>
+                </div>
+                <div class="about-image animate-on-scroll">
+                    <img src="img/sobre_camilo.jpg" alt="Equipe Camilo Campos Obras">
+                </div>
+            </div>
+        </section>
+
+        <section id="services" class="section">
+            <div class="section-container animate-on-scroll">
+                <h2 class="section-title">O que Fazemos</h2>
+                <div class="services-grid stagger-animation">
+                    <div class="service-card" style="--i: 1;">
+                        <h3>Estrutura e Fundações</h3>
+                        <ul class="services-list">
+                            <li>Terraplenagem</li>
+                            <li>Fundações e Impermeabilização</li>
+                            <li>Muros de Arrimo e Perimetral</li>
+                            <li>Infra e Supra Estrutura</li>
+                            <li>Alvenarias Estrutural e Vedação</li>
+                            <li>Telhados e Calhas</li>
+                            <li>Pisos de Concreto e Calçamentos</li>
+                        </ul>
+                    </div>
+                     <div class="service-card" style="--i: 2;">
+                        <h3>Instalações e Acabamentos</h3>
+                        <ul class="services-list">
+                            <li>Instalações Hidrossanitárias</li>
+                            <li>Instalações de Drenagem Pluvial</li>
+                            <li>Instalações Elétricas</li>
+                            <li>Infraestrutura para Ar Condicionado</li>
+                            <li>Infraestrutura para Rede e Antenas</li>
+                            <li>Emboço e Reboco Externo</li>
+                            <li>Gesso Liso e Forro em Drywall</li>
+                            <li>Assentamento de Contra-marcos</li>
+                        </ul>
+                    </div>
+                    <div class="services-notes" style="--i: 3;">
+                        <p><strong>Nota importante:</strong> Para garantir a personalização e a escolha ideal para cada cliente, não fornecemos materiais de acabamento final como pisos, revestimentos, louças, metais, luminárias, granitos e pintura. Oferecemos toda a assessoria para a compra e indicamos os melhores fornecedores.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="portfolio">
+            <div class="project-showcase" style="background-image: url('img/proj_camilo6.jpg');"></div>
+            <div class="project-showcase" style="background-image: url('img/proj_camilo7.jpg');"></div>
+            <div class="project-showcase" style="background-image: url('img/proj_camilo8.jpg');"></div>
+            <div class="project-showcase" style="background-image: url('img/proj_camilo9.jpg');"></div>
+            <div class="project-showcase" style="background-image: url('img/proj_camilo10.jpg');"></div>
+            <div class="project-showcase" style="background-image: url('img/proj_camilo11.jpg');"></div>
+            <div class="project-showcase" style="background-image: url('img/proj_camilo12.jpg');"></div>
+            <div class="project-showcase" style="background-image: url('img/proj_camilo13.jpg');"></div>
+            <div class="project-showcase" style="background-image: url('img/proj_camilo14.jpg');"></div>
+            <div class="project-showcase" style="background-image: url('img/proj_camilo15.jpg');"></div>
+        </section>
+
+        <section id="testimonials" class="section">
+            <div class="section-container animate-on-scroll">
+                <div class="testimonials-intro">
+                    <h2 class="section-title">O que nossos clientes dizem</h2>
+                    <p class="section-subtitle">A confiança e satisfação que construímos a cada projeto.</p>
+                </div>
+                <div class="testimonials-grid stagger-animation">
+                    <div class="testimonial-card" style="--i: 1;">
+                        <div class="testimonial-rating">
+                            <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                        </div>
+                        <div class="testimonial-body"><p>"Transformaram nosso sonho em realidade! A qualidade, o cuidado em cada detalhe e a atenção dedicada em cada etapa do projeto foram impressionantes."</p></div>
+                        <div class="testimonial-author">
+                            <img src="https://i.pravatar.cc/100?u=a" alt="Cliente 1">
+                            <div class="testimonial-author-info"><h4>Marcelo Silva</h4><span>Engenheiro Civil</span></div>
+                        </div>
+                    </div>
+                    <div class="testimonial-card" style="--i: 2;">
+                        <div class="testimonial-rating">
+                           <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                        </div>
+                        <div class="testimonial-body"><p>"Incrível experiência. O cuidado que colocam no trabalho são incomparáveis. Entregaram um projeto impecável, com excelência e respeito ao que sonhávamos."</p></div>
+                         <div class="testimonial-author">
+                            <img src="https://i.pravatar.cc/100?u=c" alt="Cliente 3">
+                            <div class="testimonial-author-info"><h4>João Ribeiro</h4><span>Empresário</span></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+        <section id="faq" class="section">
+            <div class="section-container animate-on-scroll">
+                <h2 class="section-title">Perguntas Frequentes</h2>
+                <div class="faq-grid stagger-animation">
+                    <div class="faq-item" style="--i: 1;">
+                        <button class="faq-question">
+                            <span>Qual o tamanho mínimo de obra que vocês executam?</span>
+                            <i class="fas fa-plus icon"></i>
+                        </button>
+                        <div class="faq-answer">
+                            <p>Devido à nossa estrutura e foco em gestão completa, não executamos obras com área inferior a 170m².</p>
+                        </div>
+                    </div>
+                    <div class="faq-item" style="--i: 2;">
+                        <button class="faq-question">
+                            <span>Posso fornecer o material da obra?</span>
+                            <i class="fas fa-plus icon"></i>
+                        </button>
+                        <div class="faq-answer">
+                            <p>Não. Nosso modelo de negócio é baseado na gestão completa, o que inclui a compra e logística de todos os materiais estruturais e de base, garantindo qualidade e prazos.</p>
+                        </div>
+                    </div>
+                    <div class="faq-item" style="--i: 3;">
+                        <button class="faq-question">
+                            <span>Como é feito o orçamento do projeto?</span>
+                            <i class="fas fa-plus icon"></i>
+                        </button>
+                        <div class="faq-answer">
+                            <p>Não trabalhamos com preço por m². Cada projeto é único. Para um orçamento preciso, necessitamos do Projeto Arquitetônico, Levantamento Topográfico, e Projetos Estrutural, Hidrossanitário e Elétrico.</p>
+                        </div>
+                    </div>
+                    <div class="faq-item" style="--i: 4;">
+                         <button class="faq-question">
+                            <span>Vocês fazem apenas a administração da obra?</span>
+                            <i class="fas fa-plus icon"></i>
+                        </button>
+                        <div class="faq-answer">
+                            <p>Nosso serviço principal envolve a execução completa com fornecimento de material, o que chamamos de "chave na mão". Não oferecemos apenas o serviço de administração.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="contact" class="section">
+            <div class="section-container animate-on-scroll">
+                <div class="contact-container">
+                    <div class="contact-info">
+                        <h2>Vamos construir juntos?</h2>
+                        <p>Envie os detalhes do seu projeto ou entre em contato pelos nossos canais. Estamos prontos para transformar sua ideia em realidade.</p>
+                    </div>
+                    <form class="contact-form" action="#" method="POST">
+                        <div class="form-group">
+                            <input type="text" name="name" id="name" required>
+                            <label for="name">Seu nome completo</label>
+                        </div>
+                        <div class="form-group">
+                            <input type="email" name="email" id="email" required>
+                            <label for="email">Seu melhor e-mail</label>
+                        </div>
+                        <div class="form-group">
+                            <textarea name="message" id="message" rows="4" required></textarea>
+                            <label for="message">Conte-nos sobre seu projeto...</label>
+                        </div>
+                        <button type="submit" class="submit-btn">Enviar Mensagem</button>
+                    </form>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="footer-grid">
+            <div class="footer-col">
+                <h4>CAMILO CAMPOS</h4>
+                <p>Construindo projetos de vida com gestão, qualidade e compromisso.</p>
+            </div>
+            <div class="footer-col">
+                <h4>Navegação</h4>
+                <ul>
+                    <li><a href="#about">Sobre</a></li>
+                    <li><a href="#services">Serviços</a></li>
+                    <li><a href="#portfolio">Projetos</a></li>
+                    <li><a href="#faq">FAQ</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Contato</h4>
+                <ul>
+                    <li><a href="tel:+55119XXXXXXXX">(11) 9XXXX-XXXX</a></li>
+                    <li><a href="mailto:contato@camilocampos.com">contato@camilocampos.com</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Redes Sociais</h4>
+                <div class="footer-social-links">
+                    <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                    <a href="#" aria-label="Facebook"><i class="fab fa-facebook"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p class="footer-credit">Desenvolvido por <a href="https://wa.me/5511960573657?text=Quero%20saber%20mais%20sobre%20os%20seus%20serviços" target="_blank">Lucas Cabral</a></p>
+        </div>
+    </footer>
+
+    <button class="back-to-top" id="backToTopBtn" aria-label="Voltar ao topo">
+        <i class="fas fa-arrow-up"></i>
+    </button>
+    
+    <a href="https://wa.me/55119XXXXXXXX" target="_blank" class="whatsapp-button" aria-label="WhatsApp">
+        <i class="fab fa-whatsapp"></i>
+    </a>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const body = document.querySelector('body');
+        const preloader = document.getElementById('preloader');
+        const header = document.querySelector('.header');
+        const hamburger = document.querySelector('.hamburger');
+        const mobileMenu = document.querySelector('.mobile-menu');
+        const mobileLinks = document.querySelectorAll('.mobile-menu a');
+        const closeMenuBtn = document.querySelector('.close-menu-btn');
+        const backToTopBtn = document.getElementById('backToTopBtn');
+        const faqItems = document.querySelectorAll('.faq-item');
+        
+        // Preloader Logic
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                preloader.classList.add('hidden');
+                body.classList.remove('no-scroll');
+            }, 500);
+        });
+        setTimeout(() => {
+             if (!preloader.classList.contains('hidden')) {
+                preloader.classList.add('hidden');
+                body.classList.remove('no-scroll');
+             }
+        }, 3000);
+
+        // Header Scroll Effect
+        window.addEventListener('scroll', () => {
+            header.classList.toggle('scrolled', window.scrollY > 50);
+        });
+
+        // Mobile Menu Toggle
+        const toggleMenu = () => {
+            hamburger.classList.toggle('active');
+            mobileMenu.classList.toggle('active');
+            body.classList.toggle('no-scroll');
+        };
+
+        hamburger.addEventListener('click', toggleMenu);
+        closeMenuBtn.addEventListener('click', toggleMenu);
+        mobileLinks.forEach(link => link.addEventListener('click', toggleMenu));
+
+        // Back to Top Button
+        window.addEventListener('scroll', () => {
+            backToTopBtn.classList.toggle('show', window.scrollY > 400);
+        });
+        backToTopBtn.addEventListener('click', () => {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+        
+        // FAQ Accordion
+        faqItems.forEach(item => {
+            const question = item.querySelector('.faq-question');
+            question.addEventListener('click', () => {
+                const isActive = item.classList.contains('active');
+                // This closes all other items before opening the new one
+                faqItems.forEach(i => {
+                    if (i !== item) {
+                        i.classList.remove('active');
+                    }
+                });
+                // This toggles the current item
+                if (!isActive) {
+                    item.classList.add('active');
+                } else {
+                    item.classList.remove('active');
+                }
+            });
+        });
+
+        // Scroll Reveal Animations
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('appear');
+                }
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('.animate-on-scroll').forEach(element => {
+            observer.observe(element);
+        });
+    });
+    </script>
+</body>
+</html>
+

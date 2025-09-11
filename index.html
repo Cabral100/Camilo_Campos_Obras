@@ -350,9 +350,25 @@
         .developer-credit {
             margin-top: 0.5rem; /* ESPAÇAMENTO */
         }
+         #about-card .section-subtitle {
+            /* AUMENTADO: Fonte do texto um pouco maior para melhor leitura */
+            font-size: clamp(1.1rem, 2.5vw, 1.35rem); 
+            line-height: 1.8; /* Melhora o espaçamento entre as linhas */
+        }
         .developer-credit a { color: var(--gray-text); font-size: 0.9rem; transition: color 0.3s ease; }
         .developer-credit a:hover { color: var(--white); }
+         @media (max-width: 1024px) {
+            .sticky-card {
+                min-height: auto;      /* Permite que a altura se ajuste ao conteúdo */
+                padding-top: 140px;    /* AUMENTADO: Mais espaço no topo */
+                padding-bottom: 100px; /* AUMENTADO: Mais espaço no final */
+            }
 
+            /* Espaçamento maior entre imagem e texto no mobile */
+            #about-card .about-content {
+                gap: 4rem; /* AUMENTADO: Mais espaço entre a foto e o texto abaixo dela */
+            }
+        }
         /* --- MEDIA QUERIES PARA RESPONSIVIDADE --- */
         @media (min-width: 1024px) {
             .about-content { flex-direction: row; text-align: left; }
@@ -360,6 +376,15 @@
             .portfolio-text-sticky {
                 position: sticky; top: 0; height: 100vh;
                 display: flex; flex-direction: column; justify-content: center;
+            }
+             .sticky-card {
+                min-height: auto;      /* Permite que a altura se ajuste ao conteúdo */
+                padding-top: 140px;    /* AUMENTADO: Mais espaço no topo */
+                padding-bottom: 100px; /* AUMENTADO: Mais espaço no final */
+            }
+
+             #about-card .about-content {
+                gap: 5rem; /* AUMENTADO: Mais espaço entre a foto e o texto ao lado */
             }
         }
 

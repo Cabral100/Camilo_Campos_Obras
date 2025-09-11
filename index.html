@@ -184,11 +184,10 @@
         .section-subtitle.light { color: rgba(255, 255, 255, 0.85); }
         .section-subtitle.dark { color: var(--gray-text); }
 
-        /* --- HERO SECTION ANIMATION --- */
-        .hero-animation-container { height: 200vh; position: relative; }
+        /* --- HERO SECTION --- */
         #hero-section {
             height: 100vh; width: 100%;
-            position: sticky; top: 0;
+            position: relative;
             display: flex; flex-direction: column; align-items: center; justify-content: center;
             text-align: center; background-color: var(--light-bg); color: var(--darker-green);
         }
@@ -459,16 +458,14 @@
     
     <main>
         
-        <div class="hero-animation-container">
-            <section id="hero-section">
-                <div class="grid-pattern"></div>
-                <h1 data-animate>A tranquilidade de ter sua obra em mãos profissionais.</h1>
-                <p data-animate style="transition-delay: 0.2s;">Gestão completa com material e mão de obra, do projeto à realidade. Foco, qualidade e compromisso para clientes que buscam confiança e serenidade.</p>
-                <div class="scroll-indicator" data-animate style="transition-delay: 0.4s;">
-                    <i class="fa-solid fa-chevron-down fa-2x"></i>
-                </div>
-            </section>
-        </div>
+        <section id="hero-section">
+            <div class="grid-pattern"></div>
+            <h1 data-animate>A tranquilidade de ter sua obra em mãos profissionais.</h1>
+            <p data-animate style="transition-delay: 0.2s;">Gestão completa com material e mão de obra, do projeto à realidade. Foco, qualidade e compromisso para clientes que buscam confiança e serenidade.</p>
+            <div class="scroll-indicator" data-animate style="transition-delay: 0.4s;">
+                <i class="fa-solid fa-chevron-down fa-2x"></i>
+            </div>
+        </section>
 
         <div class="sticky-stack-container">
             <section id="about-card" class="sticky-card">
@@ -636,20 +633,6 @@
             backToTopButton.addEventListener('click', (e) => {
                 e.preventDefault();
                 window.scrollTo({ top: 0, behavior: 'smooth' });
-            });
-
-            // Animação do Hero Section
-            const hero = document.getElementById('hero-section');
-            gsap.to(hero, {
-                scrollTrigger: {
-                    trigger: '.hero-animation-container',
-                    start: 'top top',
-                    end: 'bottom bottom',
-                    scrub: 1,
-                },
-                scale: 0.8,
-                rotation: -5,
-                ease: 'power1.inOut'
             });
 
             // LÓGICA DO MENU MOBILE
